@@ -1,0 +1,21 @@
+resources:
+  - name: debug-container-github
+    type: git
+    source:
+      uri: 'https://github.com/paulmaddox/debug-container'
+      branch: master
+  - name: debug-container-dockerhub
+    type: docker-image
+    source:
+      repository: maddox/debug
+      username: maddox
+      password: {}
+jobs:
+  - name: docker_build
+    public: false
+    plan:
+      - get: debug-container-github
+        trigger: true
+      - put: debug-container-dockerhub
+        params:
+          build: debug-container
